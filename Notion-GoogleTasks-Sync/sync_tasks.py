@@ -6,10 +6,16 @@ import schedule
 import time
 from google_tasks import authenticate_google_tasks
 from notion_api import authenticate_notion
+from dotenv import load_dotenv
+import os
 
-# Notion database and token information
-database_id = "ab111f68d23d4e98a4341040be35f922"
-notion_token = "secret_EG7THyuvawPG54i5mJUpo1Y3mB3Av131bL5TH3ttoCK"
+# Load environment variables from .env file
+load_dotenv()
+
+# Read the NOTION_TOKEN and database_id from the environment
+notion_token = os.getenv("notion_token")
+database_id = os.getenv("DATABASE_ID")
+
 
 def sync_tasks():
     # Get existing pages from Notion database
@@ -83,7 +89,7 @@ def sync_tasks():
         print(response.status_code)
         print(response.json())
 
-# Schedule the task synchronization every 30 seconds
+# Schedule the task synchronization every 10 seconds
 schedule.every(10).seconds.do(sync_tasks)
 
 # Run the scheduler continuously
